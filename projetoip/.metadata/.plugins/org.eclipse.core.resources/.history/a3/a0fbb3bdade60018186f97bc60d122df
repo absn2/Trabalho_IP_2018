@@ -1,0 +1,6 @@
+package pessoas;
+
+public abstract class ContaAbstrata {
+	
+
+}
