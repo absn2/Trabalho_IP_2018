@@ -1,0 +1,56 @@
+package pessoas;
+
+public class RepositorioContasLista implements RepositorioContas {
+	private ContaAbstrata conta;
+	private RepositorioContasLista contaProxima;
+	
+	public RepositorioContasLista () {
+		this.conta = null;
+		this.contaProxima = null;
+	}
+	
+	public void inserir(ContaAbstrata conta) {
+		String numero = conta.getCpf();
+		if (conta.existe(numero) == false) {
+			if () {
+				this.contaProxima.inserir(conta);
+			} else {
+				this.conta = conta;
+				this.contaProxima = new RepositorioContasLista();
+			}
+		} else {
+			System.out.println("CPF já cadastrado");
+		}
+	}
+
+	@Override
+	public ContaAbstrata procurar(String numero) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void remover(String numero) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atualizar(ContaAbstrata conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean existe(String numero) {
+		if (conta != null) {
+			if (!conta.getCpf().equals(numero)) {
+				this.contaProxima.existe(numero);
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+}

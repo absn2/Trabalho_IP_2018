@@ -1,9 +1,9 @@
 package pessoas;
 
 public interface RepositorioContas {
-	void inserir(ContaAbstrata conta);
-	ContaAbstrata procurar(String numero);
-	void remover (String numero);
-	void atualizar (ContaAbstrata conta);
-	boolean existe (String numero);
+	void inserir(ContaAbstrata conta, boolean existe);
+	ContaAbstrata procurar(String cpf);
+	void remover (String cpf);
+	void atualizar (ContaAbstrata cpf);
+	boolean existe (String cpf);
 }
