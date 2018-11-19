@@ -8,20 +8,12 @@ public class ContaFuncionario extends ContaAbstrata {
 	}
 
 	public void creditar(double valor) {
-		if (this.bonus < 9) {
+		this.bonus += 1;
+		if (this.bonus < 10) {
 			this.setSaldo(this.getSaldo() + (0.30 * valor));
-			this.bonus += 1;
-		} else { // quando bonus = 10; o funcionario ganha um bonus na venda
+		} else { // na 10ª venda o funcionario ganha um bonus
 			this.setSaldo(this.getSaldo() + (0.30 * valor) + valor);
 			this.bonus = 0;
 		}
 	}
-	
-	public void cliente () {
-		this.setCliente(false);
-	}
-	
-
-	
-	
 }

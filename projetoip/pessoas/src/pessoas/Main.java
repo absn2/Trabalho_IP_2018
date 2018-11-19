@@ -2,6 +2,9 @@ package pessoas;
 
 import java.util.*;
 
+import Repositorios.RepositorioContasArray;
+import Repositorios.RepositorioContasLista;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -13,22 +16,11 @@ public class Main {
 			String idadeString = in.nextLine();
 			int idade = Integer.parseInt(idadeString);
 			ContaFuncionario bem = new ContaFuncionario(cpf, nome, idade);
-			bem.cliente();
-			banco.inserir(bem, banco.existe(cpf));
+			banco.inserir(bem, false);
 			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			bem.creditar(100);
-			String resultado = "";
-			System.out.print(banco.imprimir(banco.procurar(cpf)));
+			banco.procurar(in.nextLine()).creditar(100);
 		}
-		;
+		
 		
 
 	}

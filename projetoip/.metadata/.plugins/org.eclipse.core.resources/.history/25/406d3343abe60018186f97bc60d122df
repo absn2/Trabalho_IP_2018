@@ -1,6 +1,0 @@
-package pessoas;
-
-public interface  {
-	void inserir(ContaAbstrata conta);
-
-}

@@ -5,6 +5,7 @@ public class ContaCliente extends ContaAbstrata {
 
 	public ContaCliente(String cpf, String nome, int idade) {
 		super(cpf, nome, idade);
+		this.setCliente(true);
 	}
 
 	public void creditar(double valor) { // depositando dinheiro
@@ -12,9 +13,9 @@ public class ContaCliente extends ContaAbstrata {
 	}
 
 	public void debitar(double valor) { // realizado uma compra ao chamado esse metodo
+		this.bonusFidelidade += 1;
 		if (bonusFidelidade < 10) {
 			this.setSaldo(this.getSaldo() - valor);
-			bonusFidelidade += 1;
 		} else {
 			bonusFidelidade = 0;
 		}
