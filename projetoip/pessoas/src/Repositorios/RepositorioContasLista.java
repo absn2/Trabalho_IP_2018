@@ -4,29 +4,27 @@ import pessoas.ContaAbstrata;
 
 public class RepositorioContasLista implements RepositorioContas {
 	private ContaAbstrata conta;
-	private String aux;
 	private RepositorioContasLista contaProxima;
-	private int numeroDeConta;
+	private int quantContas;
 
 	public RepositorioContasLista() {
 		this.conta = null;
-		this.aux = "";
 		this.contaProxima = null;
+		this.quantContas = 1;
 	}
 
-	public void inserir(ContaAbstrata conta, boolean resultado) { // inserir em ordem crescente de idades
+	public void inserir(ContaAbstrata conta) { // inserir em ordem crescente de idades
+		boolean resultado = this.existe(conta.getCpf());
 		if (resultado == false) {
-			this.numeroDeConta += 1;
-			if (this.numeroDeConta <= 100) {
-				if (!this.aux.equals("")) {
-					this.contaProxima.inserir(conta, resultado);
+			if (this.quantContas < 100) {
+				if (this.conta != null) {
+					this.quantContas +=1;
+					this.contaProxima.inserir(conta);
 				} else {
 					this.conta = conta;
-					this.aux = "cadastrado";
 					this.contaProxima = new RepositorioContasLista();
 				}
-			}
-			else {
+			} else {
 				System.out.println("NUMERO DE LIMITES DE CADASTROS EXCEDIDOS");
 			}
 		} else {
@@ -35,7 +33,7 @@ public class RepositorioContasLista implements RepositorioContas {
 	}
 
 	public boolean existe(String cpf) {
-		if (!this.aux.equals("")) {
+		if (this.conta != null) {
 			if (this.conta.getCpf().equals(cpf)) {
 				return true;
 			} else {
@@ -46,14 +44,14 @@ public class RepositorioContasLista implements RepositorioContas {
 		}
 	}
 
-	public void remover(String numero) {
+	public void remover(String cpf) {
 		if (this.conta != null) {
-			if (this.conta.getCpf().equals(numero)) {
+			if (this.conta.getCpf().equals(cpf)) {
 				this.conta = this.contaProxima.conta;
-				this.aux = this.contaProxima.aux;
 				this.contaProxima = this.contaProxima.contaProxima;
+				this.quantContas -= 1;
 			} else {
-				this.contaProxima.remover(numero);
+				this.contaProxima.remover(cpf);
 			}
 		} else {
 			throw new RuntimeException("CPF NAO CADASTRADO");
@@ -70,7 +68,6 @@ public class RepositorioContasLista implements RepositorioContas {
 		} else {
 			throw new RuntimeException("CPF NAO CADASTRADO");
 		}
-
 	}
 
 	public ContaAbstrata procurar(String cpf) {
@@ -83,36 +80,5 @@ public class RepositorioContasLista implements RepositorioContas {
 		} else {
 			throw new RuntimeException("CPF NAO CADASTRADO");
 		}
-	}
-
-	public String imprimirRepositorio(String imprimir) {
-		if (this.conta != null) {
-			if (this.conta.getCliente() == false) {
-				imprimir += "\n#CONTA FUNCIONARIO#";
-			} else {
-				imprimir += "\n#CONTA CLIENTE#";
-			}
-			imprimir += "\nNome : " + conta.getNome();
-			imprimir += "\nIdade : " + conta.getIdade();
-			imprimir += "\nCPF : " + conta.getCpf();
-			imprimir += "\nSaldo : " + conta.getSaldo() + "\n";
-			return this.contaProxima.imprimirRepositorio(imprimir);
-		}
-		return imprimir;
-
-	}
-
-	public String imprimirConta(ContaAbstrata conta) {
-		String imprimir = "";
-		if (conta.getCliente() == true) {
-			imprimir = "\n#CONTA FUNCIONARIO#";
-		} else {
-			imprimir = "\n#CONTA CLIENTE#";
-		}
-		imprimir += "\nNome : " + conta.getNome();
-		imprimir += "\nIdade : " + conta.getIdade();
-		imprimir += "\nCPF : " + conta.getCpf();
-		imprimir += "\nSaldo : " + conta.getSaldo() + "\n";
-		return imprimir;
 	}
 }

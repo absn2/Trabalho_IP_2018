@@ -6,6 +6,7 @@ public abstract class ContaAbstrata {
 	private int idade;
 	private double saldo;
 	private boolean cliente; // Diferencial para a conta ser de cliente ou de Funcionario.
+	private int bonus;
 	
 	public ContaAbstrata (String cpf, String nome, int idade) {
 		this.cpf = cpf;
@@ -13,9 +14,12 @@ public abstract class ContaAbstrata {
 		this.idade = idade;
 		this.saldo = 0.0;
 		this.cliente = false;
+		this.bonus = 0;
 	}
 	
 	public abstract void creditar (double valor); // Esse metodo existe pois o funcionario vai creditar (receber comissão) em base ao preço da compra do cliente, já o cliente é base em mero depósito.
+	
+	public abstract void debitar (double valor); 
 	
 	protected void setSaldo (double saldo) {
 		this.saldo = saldo;
@@ -45,8 +49,16 @@ public abstract class ContaAbstrata {
 		return this.cliente;
 	}
 	
+	public int getBonus() {
+		return this.bonus;
+	}
+	
 	public void setCliente(boolean cliente) {
 		this.cliente = cliente;
+	}
+	
+	protected void setBonus (int bonus) {
+		this.bonus = bonus;
 	}
 
 	public boolean existe(String numero) {
@@ -56,4 +68,5 @@ public abstract class ContaAbstrata {
 			return false;
 		}
 	}
+
 }
