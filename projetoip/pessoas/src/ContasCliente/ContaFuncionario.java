@@ -1,4 +1,4 @@
-package pessoas;
+package ContasCliente;
 
 public class ContaFuncionario extends ContaAbstrata {
 
@@ -15,9 +15,4 @@ public class ContaFuncionario extends ContaAbstrata {
 			this.setBonus(0);
 		}
 	}
-	
-	public void debitar(double valor) { // se ele quiser retirar seu salário
-		this.setSaldo(this.getSaldo() - valor);
-	}
-	
 }

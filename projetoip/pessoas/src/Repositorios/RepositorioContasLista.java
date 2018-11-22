@@ -1,6 +1,8 @@
 package Repositorios;
 
-import pessoas.ContaAbstrata;
+import ContasCliente.ContaAbstrata;
+import Excecoes.CpfCadastradoException;
+import Excecoes.CpfNaoCadastradoException;
 
 public class RepositorioContasLista implements RepositorioContas {
 	private ContaAbstrata conta;
@@ -10,25 +12,25 @@ public class RepositorioContasLista implements RepositorioContas {
 	public RepositorioContasLista() {
 		this.conta = null;
 		this.contaProxima = null;
-		this.quantContas = 1;
+		this.quantContas = 0;
 	}
 
-	public void inserir(ContaAbstrata conta) { // inserir em ordem crescente de idades
+	public void inserir(ContaAbstrata conta) throws CpfCadastradoException, NumeroCadastroExcedidoException { // inserir em ordem crescente de idades
 		boolean resultado = this.existe(conta.getCpf());
 		if (resultado == false) {
 			if (this.quantContas < 100) {
 				if (this.conta != null) {
-					this.quantContas +=1;
 					this.contaProxima.inserir(conta);
 				} else {
 					this.conta = conta;
+					this.quantContas +=1 ;
 					this.contaProxima = new RepositorioContasLista();
 				}
 			} else {
-				System.out.println("NUMERO DE LIMITES DE CADASTROS EXCEDIDOS");
+				throw new NumeroCadastroExcedidoException();
 			}
 		} else {
-			System.out.println("CPF ja cadastrado");
+			throw new CpfCadastradoException();
 		}
 	}
 
@@ -44,17 +46,20 @@ public class RepositorioContasLista implements RepositorioContas {
 		}
 	}
 
-	public void remover(String cpf) {
-		if (this.conta != null) {
-			if (this.conta.getCpf().equals(cpf)) {
-				this.conta = this.contaProxima.conta;
-				this.contaProxima = this.contaProxima.contaProxima;
-				this.quantContas -= 1;
+	public void remover(String cpf) throws CpfNaoCadastradoException {
+		boolean existe = this.existe(cpf);
+		if (existe == true) {
+			if (this.conta != null) {
+				if (this.conta.getCpf().equals(cpf)) {
+					this.conta = this.contaProxima.conta;
+					this.contaProxima = this.contaProxima.contaProxima;
+					this.quantContas -= 1;
+				} else {
+					this.contaProxima.remover(cpf);
+				}
 			} else {
-				this.contaProxima.remover(cpf);
+				throw new CpfNaoCadastradoException();
 			}
-		} else {
-			throw new RuntimeException("CPF NAO CADASTRADO");
 		}
 	}
 
@@ -65,12 +70,10 @@ public class RepositorioContasLista implements RepositorioContas {
 			} else {
 				this.contaProxima.atualizar(conta);
 			}
-		} else {
-			throw new RuntimeException("CPF NAO CADASTRADO");
 		}
 	}
 
-	public ContaAbstrata procurar(String cpf) {
+	public ContaAbstrata procurar(String cpf) throws CpfNaoCadastradoException {
 		if (this.conta != null) {
 			if (this.conta.getCpf().equals(cpf)) {
 				return this.conta;
@@ -78,7 +81,7 @@ public class RepositorioContasLista implements RepositorioContas {
 				return this.contaProxima.procurar(cpf);
 			}
 		} else {
-			throw new RuntimeException("CPF NAO CADASTRADO");
+			throw new CpfNaoCadastradoException();
 		}
 	}
 }

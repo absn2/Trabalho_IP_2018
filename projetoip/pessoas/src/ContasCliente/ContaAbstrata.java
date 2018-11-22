@@ -1,4 +1,4 @@
-package pessoas;
+package ContasCliente;
 
 public abstract class ContaAbstrata {
 	private String cpf; // cpf ou seja cadastro unico do cliente/funcionario.
@@ -18,8 +18,6 @@ public abstract class ContaAbstrata {
 	}
 	
 	public abstract void creditar (double valor); // Esse metodo existe pois o funcionario vai creditar (receber comissão) em base ao preço da compra do cliente, já o cliente é base em mero depósito.
-	
-	public abstract void debitar (double valor); 
 	
 	protected void setSaldo (double saldo) {
 		this.saldo = saldo;

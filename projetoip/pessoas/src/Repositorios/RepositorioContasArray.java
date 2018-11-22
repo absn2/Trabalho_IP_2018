@@ -1,34 +1,37 @@
 package Repositorios;
 
-import pessoas.ContaAbstrata;
+import ContasCliente.ContaAbstrata;
+import Excecoes.CpfCadastradoException;
+import Excecoes.CpfNaoCadastradoException;
 
 public class RepositorioContasArray implements RepositorioContas {
-	private ContaAbstrata[] conta = new ContaAbstrata[100];
+	private ContaAbstrata[] conta;
 	private int quantContas;
 
 	public RepositorioContasArray() {
-		ContaAbstrata[] conta = new ContaAbstrata[100];
+		this.conta = new ContaAbstrata[100];
+		this.quantContas = 0;
 	}
 
-	public void inserir(ContaAbstrata conta) {
+	public void inserir(ContaAbstrata conta) throws NumeroCadastroExcedidoException, CpfCadastradoException {
 		boolean existe = this.existe(conta.getCpf());
 		if (existe == false) {
 			boolean parou = false;
 			for (int aux = 0; aux <= this.conta.length && parou == false; aux++) {
 				if (aux == this.conta.length) {
-					System.out.print("NUMERO DE CADASTRADOS EXCEDIDSOS");
+					throw new NumeroCadastroExcedidoException();
 				} else {
 					if (this.conta[aux] != null) {
 						continue;
 					} else {
 						this.conta[aux] = conta;
-						this.quantContas = aux;
+						this.quantContas = aux + 1;
 						parou = true;
 					}
 				}
 			}
 		} else {
-			System.out.print("CPF JA CADASTRADO");
+			throw new CpfCadastradoException();
 		}
 
 	}
@@ -44,14 +47,14 @@ public class RepositorioContasArray implements RepositorioContas {
 		return false;
 	}
 
-	public void remover(String cpf) {
+	public void remover(String cpf) throws CpfNaoCadastradoException {
 		boolean resultado = this.existe(cpf);
 		if (resultado == true) {
 			boolean parou = false;
 			for (int aux = 0; aux < this.conta.length && parou == false; aux++) {
 				if (this.conta[aux].getCpf().equals(cpf)) {
 					this.conta[aux] = null;
-					for (int auxRecolocar = aux+1; auxRecolocar < this.conta.length; auxRecolocar++) {
+					for (int auxRecolocar = aux + 1; auxRecolocar < this.conta.length; auxRecolocar++) {
 						this.conta[aux] = this.conta[auxRecolocar];
 					}
 					this.quantContas -= 1;
@@ -59,7 +62,7 @@ public class RepositorioContasArray implements RepositorioContas {
 				}
 			}
 		} else {
-			System.out.print("CPF NAO CADASTRADO");
+			throw new CpfNaoCadastradoException();
 		}
 	}
 
@@ -73,13 +76,10 @@ public class RepositorioContasArray implements RepositorioContas {
 					parou = true;
 				}
 			}
-		} else {
-			System.out.print("CPF NAO CADASTRADO");
 		}
-
 	}
 
-	public ContaAbstrata procurar(String cpf) {
+	public ContaAbstrata procurar(String cpf) throws CpfNaoCadastradoException {
 		boolean resultado = this.existe(cpf);
 		if (resultado == true) {
 			boolean parou = false;
@@ -90,9 +90,9 @@ public class RepositorioContasArray implements RepositorioContas {
 					parou = true;
 				}
 			}
-			return procurada;	
-		}else {
-			throw new RuntimeException("CPF NAO CADASTRADO");
+			return procurada;
+		} else {
+			throw new CpfNaoCadastradoException();
 		}
 	}
 }

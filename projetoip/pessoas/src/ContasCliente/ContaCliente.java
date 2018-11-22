@@ -1,4 +1,4 @@
-package pessoas;
+package ContasCliente;
 
 public class ContaCliente extends ContaAbstrata {
 
