@@ -4,15 +4,25 @@ import java.util.*;
 import ContasCliente.*;
 import Excecoes.*;
 import Repositorios.*;
+import cadastro.CadastroClientes;
 import fachada.Loja;
 
 public class Progama {
-	static Loja loja = new Loja();
-	static Scanner in = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		System.out.println("Array ou Lista");
+		
+		Scanner in = new Scanner(System.in);
 		Loja loja = new Loja();
 		System.out.println("Escolha" + "\n" + "1 - Papai" + "\n" + "2 - Mamae");
+		RepositorioContasArray rep = new RepositorioContasArray();
+		CadastroClientes cliente = new CadastroClientes (rep);
+		ContaFuncionario bem = new ContaFuncionario ("dsadsada", "antonio", 18);
+		try {
+			rep.inserir(bem);
+		} catch (NumeroCadastroExcedidoException | CpfCadastradoException e1) {
+			
+		}
 		boolean parar = false;
 		while (parar == false) {
 			int escolha = in.nextInt();

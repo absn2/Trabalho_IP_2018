@@ -1,0 +1,11 @@
+package fachada;
+
+import cadastro.CadastroClientes;
+
+public class Loja {
+
+	public Loja() {
+	}
+	
+	
+}

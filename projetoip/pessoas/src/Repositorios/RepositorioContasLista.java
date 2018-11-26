@@ -3,6 +3,7 @@ package Repositorios;
 import ContasCliente.ContaAbstrata;
 import Excecoes.CpfCadastradoException;
 import Excecoes.CpfNaoCadastradoException;
+import Excecoes.NumeroCadastroExcedidoException;
 
 public class RepositorioContasLista implements RepositorioContas {
 	private ContaAbstrata conta;
