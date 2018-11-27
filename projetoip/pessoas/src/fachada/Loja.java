@@ -1,56 +1,58 @@
 package fachada;
 
 import ContasCliente.*;
+
 import Excecoes.*;
+import Excecoes.NumeroCadastroExcedidoException;
 import Repositorios.*;
 import cadastro.CadastroClientes;
 
 public class Loja {
-	CadastroClientes clienteC;
+	CadastroClientes pessoa;
 
 	public Loja(boolean repositorio) {
 		if (repositorio) {
-			this.clienteC = new CadastroClientes (new RepositorioContasLista());
+			this.pessoa = new CadastroClientes (new RepositorioContasLista());
 		} else {
 			
 		}
 	}
 	
 	// clientes 
-	public void cadastroCliente (ContaAbstrata conta) throws CpfCadastradoException, NumeroCadastroExcedidoException {
-		if (!clienteC.existe(conta.getCpf())) {
-			clienteC.cadastrar(conta);
+	public void cadastroPessoas (ContaAbstrata conta) throws CpfCadastradoException, NumeroCadastroExcedidoException {
+		if (!pessoa.existe(conta.getCpf())) {
+			pessoa.cadastrar(conta);
 		} else {
 			throw new CpfCadastradoException();
 		}
 	}
 	
-	public void removerCliente (String cpf) throws CpfNaoCadastradoException{
-		if (clienteC.existe(cpf)) {
-			clienteC.remover(cpf);
+	public void removerPessoa (String cpf) throws CpfNaoCadastradoException{
+		if (pessoa.existe(cpf)) {
+			pessoa.remover(cpf);
 		} else {
 			throw new CpfNaoCadastradoException();
 		}
 	}
 	
-	public ContaAbstrata procurarCliente (String cpf) throws CpfNaoCadastradoException {
-		if (clienteC.existe(cpf)) {
-			return clienteC.procurar(cpf);
+	public ContaAbstrata procurarPessoa (String cpf) throws CpfNaoCadastradoException {
+		if (pessoa.existe(cpf)) {
+			return pessoa.procurar(cpf);
 		} else {
 			throw new CpfNaoCadastradoException();
 		}
 	}
 	
-	public void atualizarCliente (ContaAbstrata conta) throws CpfNaoCadastradoException {
-		if (clienteC.existe(conta.getCpf())) {
-			clienteC.atualizar(conta);
+	public void atualizarPessoa (ContaAbstrata conta) throws CpfNaoCadastradoException {
+		if (pessoa.existe(conta.getCpf())) {
+			pessoa.atualizar(conta);
 		} else {
 			throw new CpfNaoCadastradoException();
 		}
 	}
 	
-	public boolean existeCliente (String cpf) throws CpfNaoCadastradoException {
-		if (clienteC.existe(cpf)) {
+	public boolean existePessoa (String cpf) throws CpfNaoCadastradoException {
+		if (pessoa.existe(cpf)) {
 			return true;
 		} else {
 			throw new CpfNaoCadastradoException();
