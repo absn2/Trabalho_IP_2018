@@ -1,14 +1,14 @@
 package pessoas;
 
 public abstract class ContaAbstrata {
-	private String cpf; // cpf ou seja cadastro unico do cliente/funcionario.
+	private long cpf; // cpf ou seja cadastro unico do cliente/funcionario.
 	private String nome; 
 	private int idade;
 	private double saldo;
 	private boolean cliente; // Diferencial para a conta ser de cliente ou de Funcionario.
 	private int bonus;
 	
-	public ContaAbstrata (String cpf, String nome, int idade) {
+	public ContaAbstrata (long cpf, String nome, int idade) {
 		this.cpf = cpf;
 		this.nome = nome;
 		this.idade = idade;
@@ -31,7 +31,7 @@ public abstract class ContaAbstrata {
 		return this.saldo;
 	}
 	
-	public String getCpf() {
+	public long getCpf() {
 		return this.cpf;
 	}
 	
@@ -59,8 +59,8 @@ public abstract class ContaAbstrata {
 		this.bonus = bonus;
 	}
 
-	public boolean existe(String numero) {
-		if (this.cpf.equals(numero)) {
+	public boolean existe(long cpf) {
+		if (this.cpf == cpf) {
 			return true;
 		} else {
 			return false;

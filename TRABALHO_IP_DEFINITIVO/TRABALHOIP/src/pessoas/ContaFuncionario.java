@@ -2,7 +2,7 @@ package pessoas;
 
 public class ContaFuncionario extends ContaAbstrata {
 
-	public ContaFuncionario(String cpf, String nome, int idade) {
+	public ContaFuncionario(long cpf, String nome, int idade) {
 		super(cpf, nome, idade);
 	}
 

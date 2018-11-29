@@ -1,6 +1,6 @@
 package pessoas;
 
-import excecoes.*;
+
 
 public class RepositorioContasLista implements RepositorioContas {
 	private ContaAbstrata conta;
@@ -32,9 +32,9 @@ public class RepositorioContasLista implements RepositorioContas {
 		}
 	}
 
-	public boolean existe(String cpf) {
+	public boolean existe(long cpf) {
 		if (this.conta != null) {
-			if (this.conta.getCpf().equals(cpf)) {
+			if (this.conta.getCpf() == cpf) {
 				return true;
 			} else {
 				return this.contaProxima.existe(cpf);
@@ -44,11 +44,11 @@ public class RepositorioContasLista implements RepositorioContas {
 		}
 	}
 
-	public void remover(String cpf) throws CpfNaoCadastradoException {
+	public void remover(long cpf) throws CpfNaoCadastradoException {
 		boolean existe = this.existe(cpf);
 		if (existe == true) {
 			if (this.conta != null) {
-				if (this.conta.getCpf().equals(cpf)) {
+				if (this.conta.getCpf() == cpf) {
 					this.conta = this.contaProxima.conta;
 					this.contaProxima = this.contaProxima.contaProxima;
 					this.quantContas -= 1;
@@ -63,7 +63,7 @@ public class RepositorioContasLista implements RepositorioContas {
 
 	public void atualizar(ContaAbstrata conta) {
 		if (this.conta != null) {
-			if (this.conta.getCpf().equals(conta.getCpf())) {
+			if (this.conta.getCpf() == conta.getCpf()) {
 				this.conta = conta;
 			} else {
 				this.contaProxima.atualizar(conta);
@@ -71,9 +71,9 @@ public class RepositorioContasLista implements RepositorioContas {
 		}
 	}
 
-	public ContaAbstrata procurar(String cpf) throws CpfNaoCadastradoException {
+	public ContaAbstrata procurar(long cpf) throws CpfNaoCadastradoException {
 		if (this.conta != null) {
-			if (this.conta.getCpf().equals(cpf)) {
+			if (this.conta.getCpf() == cpf) {
 				return this.conta;
 			} else {
 				return this.contaProxima.procurar(cpf);

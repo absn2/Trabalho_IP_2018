@@ -1,8 +1,8 @@
 package ui;
 
 import java.util.*;
+
 import pessoas.*;
-import excecoes.*;
 import cadastros.*;
 import fachada.*;
 
@@ -17,18 +17,27 @@ public class main {
 		// so pode rodar com um funcionario usando
 		System.out.println("-------PARA INICIALIZAR O PROGAMA------");
 		System.out.println("-------CADASTRE-SE NO SISTEMA----------");
-		System.out.println("CPF: ");
-		String cpf = in.nextLine();
-		System.out.println("NOME: ");
-		String nome = in.nextLine();
-		System.out.println("IDADE: ");
-		String idadeS = in.nextLine();
-		int idade = Integer.parseInt(idadeS);
-		ContaFuncionario funcionario = new ContaFuncionario(cpf, nome, idade);
-		try {
-			loja.cadastroPessoas(funcionario);
-		} catch (CpfCadastradoException | NumeroCadastroExcedidoException e2) {
-			System.out.println("" + e2);
+		boolean parouInicio = false;
+		while (!parouInicio) {
+			try {
+				System.out.println("CPF: ");
+				long cpf = in.nextLong();
+				in.nextLine();
+				System.out.println("NOME: ");
+				String nome = in.nextLine();
+				System.out.println("IDADE: ");
+				int idade = in.nextInt();
+				in.nextLine();
+				ContaFuncionario funcionario = new ContaFuncionario(cpf, nome, idade);
+				try {
+					loja.cadastroPessoas(funcionario);
+					parouInicio = true;
+				} catch (CpfCadastradoException | NumeroCadastroExcedidoException e2) {
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("***SO DIGITE NUMEROS NA SESSAO DO CPF E DA IDADE***\n");
+				in.nextLine();
+			}
 		}
 		boolean parou = false;
 		// inicio interface
@@ -60,123 +69,159 @@ public class main {
 						parouCliente = true;
 						// interface Cadastro Cliente
 					} else if (escolhaPessoa == 1) {
-						System.out.println("CPF: ");
-						cpf = in.nextLine();
-						System.out.println("NOME: ");
-						nome = in.nextLine();
-						System.out.println("IDADE: ");
-						idadeS = in.nextLine();
-						idade = Integer.parseInt(idadeS);
-						ContaCliente cliente = new ContaCliente(cpf, nome, idade);
 						try {
-							loja.cadastroPessoas(cliente);
-							System.out.println("****CADASTRADO COM SUCESSO****\n");
-						} catch (CpfCadastradoException e) {
-							System.out.println("****Cpf ja cadastrado****\n");
-						} catch (NumeroCadastroExcedidoException e) {
-							System.out.println("****Numero de Cadastros Excedido****\n");
+							System.out.println("CPF: ");
+							long cpf = in.nextLong();
+							in.nextLine();
+							System.out.println("NOME: ");
+							String nome = in.nextLine();
+							System.out.println("IDADE: ");
+							int idade = in.nextInt();
+							in.nextLine();
+							try {
+								loja.cadastroPessoas(loja.criarContaCliente(cpf, nome, idade, escolhaPessoa));
+								System.out.println("****CADASTRADO COM SUCESSO****\n");
+							} catch (CpfCadastradoException e) {
+								System.out.println("****Cpf ja cadastrado****\n");
+							} catch (NumeroCadastroExcedidoException e) {
+								System.out.println("****Numero de Cadastros Excedido****\n");
+							}
+						} catch (InputMismatchException e) {
+							System.out.println("***SO DIGITE NUMEROS NA SESSAO DO CPF E DA IDADE***\n");
+							in.nextLine();
 						}
 						// interface cadastro funcionario
 					} else if (escolhaPessoa == 2) {
-						System.out.println("CPF: ");
-						cpf = in.nextLine();
-						System.out.println("NOME: ");
-						nome = in.nextLine();
-						System.out.println("IDADE: ");
-						idadeS = in.nextLine();
-						idade = Integer.parseInt(idadeS);
-						funcionario = new ContaFuncionario(cpf, nome, idade);
 						try {
-							loja.cadastroPessoas(funcionario);
-							System.out.println("****CADASTRADO COM SUCESSO****\n");
-						} catch (CpfCadastradoException e) {
-							System.out.println("****Cpf ja cadastrado****\n");
-						} catch (NumeroCadastroExcedidoException e) {
-							System.out.println("****Numero de Cadastros Excedido****\n");
+							System.out.println("CPF: ");
+							long cpf = in.nextLong();
+							in.nextLine();
+							System.out.println("NOME: ");
+							String nome = in.nextLine();
+							System.out.println("IDADE: ");
+							int idade = in.nextInt();
+							in.nextLine();
+							try {
+								loja.cadastroPessoas(loja.criarContaCliente(cpf, nome, idade, escolhaPessoa));
+								System.out.println("****CADASTRADO COM SUCESSO****\n");
+							} catch (CpfCadastradoException e) {
+								System.out.println("****Cpf ja cadastrado****\n");
+							} catch (NumeroCadastroExcedidoException e) {
+								System.out.println("****Numero de Cadastros Excedido****\n");
+							}
+						} catch (InputMismatchException e) {
+							System.out.println("***SO DIGITE NUMEROS NA SESSAO DO CPF E DA IDADE***\n");
+							in.nextLine();
 						}
 					} else if (escolhaPessoa == 3) {
 						System.out.println("DIGITE APENAS O CPF PARA REMOVER : ");
-						cpf = in.nextLine();
 						try {
-							if (!loja.procurarPessoa(cpf).getCliente()) {
-								try {
-									throw new TipoContaErradaClienteException();
-								} catch (TipoContaErradaClienteException e) {
-									System.out.println(
-											"\n****Voce se referiu a uma conta de funcionario, por favor insira uma de CLIENTE****\n");
+							long cpf = in.nextLong();
+							in.nextLine();
+							try {
+								if (!loja.procurarPessoa(cpf).getCliente()) {
+									try {
+										throw new TipoContaErradaClienteException();
+									} catch (TipoContaErradaClienteException e) {
+										System.out.println(
+												"\n****Voce se referiu a uma conta de funcionario, por favor insira uma de CLIENTE****\n");
+									}
+								} else {
+									loja.removerPessoa(cpf);
+									System.out.println("****CONTA DE CLIENTE REMOVIDA****\n");
 								}
-							} else {
-								loja.removerPessoa(cpf);
-								System.out.println("****CONTA DE CLIENTE REMOVIDA****\n");
+							} catch (CpfNaoCadastradoException e) {
+								System.out.println("****Cpf nao cadastrado****\n");
 							}
-						} catch (CpfNaoCadastradoException e) {
-							System.out.println("****Cpf nao cadastrado****\n");
+						} catch (InputMismatchException e) {
+							System.out.println("***SO DIGITE NUMEROS NA SESSAO DO CPF***\n");
+							in.nextLine();
 						}
 					} else if (escolhaPessoa == 4) {
 						System.out.println("DIGITE APENAS O CPF PARA REMOVER : ");
-						cpf = in.nextLine();
 						try {
-							if (loja.procurarPessoa(cpf).getCliente()) {
-								try {
-									throw new TipoContaErradaFuncionarioException();
-								} catch (TipoContaErradaFuncionarioException e) {
-									System.out.println(
-											"\n****Voce se referiu a uma conta de cliente, por favor insira uma de FUNCIONARIO9****\n");
+							long cpf = in.nextLong();
+							in.nextLine();
+							try {
+								if (loja.procurarPessoa(cpf).getCliente()) {
+									try {
+										throw new TipoContaErradaFuncionarioException();
+									} catch (TipoContaErradaFuncionarioException e) {
+										System.out.println(
+												"\n****Voce se referiu a uma conta de cliente, por favor insira uma de FUNCIONARIO****\n");
+									}
+								} else {
+									loja.removerPessoa(cpf);
+									System.out.println("****CONTA DE FUNCIONARIO REMOVIDA****\n");
 								}
-							} else {
-								loja.removerPessoa(cpf);
-								System.out.println("****CONTA DE FUNCIONARIO REMOVIDA****\n");
+							} catch (CpfNaoCadastradoException e) {
+								System.out.println("****Cpf nao cadastrado****\n");
 							}
-						} catch (CpfNaoCadastradoException e) {
-							System.out.println("****Cpf nao cadastrado****\n");
+						} catch (InputMismatchException e) {
+							System.out.println("***SO DIGITE NUMEROS NA SESSAO DO CPF***\n");
+							in.nextLine();
 						}
+						// interface pessoa procurar
 					} else if (escolhaPessoa == 5) {
 						System.out.println("DIGITE APENAS O CPF PARA PROCURAR : ");
-						cpf = in.nextLine();
 						try {
-							ContaAbstrata conta = loja.procurarPessoa(cpf);
-							if (conta.getCliente()) {
-								nome = conta.getNome();
-								cpf = conta.getCpf();
-								idade = conta.getIdade();
-								double saldo = conta.getSaldo();
-								conta.creditar(125);
-								System.out.printf("\n--CONTA CLIENTE--\nNome: %s\nCpf: %s\nIdade: %d\nSaldo: %.2f$\n\n",
-										nome, cpf, idade, saldo);
-							} else {
-								try {
-									throw new TipoContaErradaClienteException();
-								} catch (TipoContaErradaClienteException e) {
-									System.out.println(
-											"\n****Voce se referiu a uma conta de funcionario, por favor insira uma de CLIENTE****\n");
+							long cpf = in.nextLong();
+							in.nextLine();
+							try {
+								ContaAbstrata conta = loja.procurarPessoa(cpf);
+								if (conta.getCliente()) {
+									String nome = conta.getNome();
+									cpf = conta.getCpf();
+									int idade = conta.getIdade();
+									double saldo = conta.getSaldo();
+									conta.creditar(125);
+									System.out.printf(
+											"\n--CONTA CLIENTE--\nNome: %s\nCpf: %s\nIdade: %d\nSaldo: %.2f$\n\n", nome,
+											cpf, idade, saldo);
+								} else {
+									try {
+										throw new TipoContaErradaClienteException();
+									} catch (TipoContaErradaClienteException e) {
+										System.out.println(
+												"\n****Voce se referiu a uma conta de funcionario, por favor insira uma de CLIENTE****\n");
+									}
 								}
+							} catch (CpfNaoCadastradoException e) {
+								System.out.println("****Cpf nao cadastrado****\n");
 							}
-						} catch (CpfNaoCadastradoException e) {
-							System.out.println("****Cpf nao cadastrado****\n");
+						} catch (InputMismatchException e) {
+							System.out.println("***SO DIGITE NUMEROS NA SESSAO DO CPF***\n");
+							in.nextLine();
 						}
 					} else if (escolhaPessoa == 6) {
 						System.out.println("DIGITE APENAS O CPF PARA PROCURAR : ");
-						cpf = in.nextLine();
 						try {
-							ContaAbstrata conta = loja.procurarPessoa(cpf);
-							if (!conta.getCliente()) {
-								nome = conta.getNome();
-								cpf = conta.getCpf();
-								idade = conta.getIdade();
-								double saldo = conta.getSaldo();
-								System.out.printf(
-										"\n--CONTA FUNCIONARIO--\nNome: %s\nCpf: %s\nIdade: %d\nSaldo: %.2f$\n\n", nome,
-										cpf, idade, saldo);
-							} else {
-								try {
-									throw new TipoContaErradaFuncionarioException();
-								} catch (TipoContaErradaFuncionarioException e) {
-									System.out.println(
-											"\n****Voce se referiu a uma conta de cliente, por favor insira uma de FUNCIONARIO****\n");
+							long cpf = in.nextLong();
+							in.nextLine();
+							try {
+								ContaAbstrata conta = loja.procurarPessoa(cpf);
+								if (!conta.getCliente()) {
+									String nome = conta.getNome();
+									cpf = conta.getCpf();
+									int idade = conta.getIdade();
+									double saldo = conta.getSaldo();
+									System.out.printf(
+											"\n--CONTA FUNCIONARIO--\nNome: %s\nCpf: %s\nIdade: %d\nSaldo: %.2f$\n\n",
+											nome, cpf, idade, saldo);
+								} else {
+									try {
+										throw new TipoContaErradaFuncionarioException();
+									} catch (TipoContaErradaFuncionarioException e) {
+										System.out.println(
+												"\n****Voce se referiu a uma conta de cliente, por favor insira uma de FUNCIONARIO****\n");
+									}
 								}
+							} catch (CpfNaoCadastradoException e) {
+								System.out.println("****Cpf nao cadastrado****\n");
 							}
-						} catch (CpfNaoCadastradoException e) {
-							System.out.println("****Cpf nao cadastrado****\n");
+						} catch (InputMismatchException e) {
+							System.out.println("***SO DIGITE NUMEROS NA SESSAO DO CPF***\n");
+							in.nextLine();
 						}
 					} else {
 						try {
@@ -206,7 +251,7 @@ public class main {
 
 					} else if (escolhaNegocios == 3) {
 						System.out.println("DIGITE APENAS O CPF DO FUNCIONARIO QUE ESTA VENDENDO O PRODUTO : ");
-						cpf = in.nextLine();
+						long cpf = in.nextLong();
 						try {
 							ContaAbstrata conta = loja.procurarPessoa(cpf);
 						} catch (CpfNaoCadastradoException e) {

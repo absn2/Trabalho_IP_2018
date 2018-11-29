@@ -3,7 +3,7 @@ package pessoas;
 public class ContaCliente extends ContaAbstrata {
 
 
-	public ContaCliente(String cpf, String nome, int idade) {
+	public ContaCliente(long cpf, String nome, int idade) {
 		super(cpf, nome, idade);
 		this.setCliente(true);
 	}

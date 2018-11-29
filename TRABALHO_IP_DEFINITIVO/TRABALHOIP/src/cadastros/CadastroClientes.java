@@ -1,7 +1,7 @@
 package cadastros;
 
 import pessoas.*;
-import excecoes.*;
+
 
 public class CadastroClientes {
 	private RepositorioContas clientes;
@@ -18,7 +18,7 @@ public class CadastroClientes {
 		}
 	}
 	
-	public void remover (String cpf) throws CpfNaoCadastradoException{
+	public void remover (long cpf) throws CpfNaoCadastradoException{
 		if (clientes.existe(cpf)) {
 			clientes.remover(cpf);
 		} else {
@@ -34,7 +34,7 @@ public class CadastroClientes {
 		}
 	}
 	
-	public ContaAbstrata procurar (String cpf) throws CpfNaoCadastradoException {
+	public ContaAbstrata procurar (long cpf) throws CpfNaoCadastradoException {
 		if (clientes.existe(cpf)) {
 			return clientes.procurar(cpf);
 		} else {
@@ -42,7 +42,7 @@ public class CadastroClientes {
 		}
 	}
 	
-	public boolean existe (String cpf) {
+	public boolean existe (long cpf) {
 		if (clientes.existe(cpf)) {
 			return true;
 		} else {

@@ -1,7 +1,5 @@
 package pessoas;
 
-import excecoes.*;
-
 public class RepositorioContasArray implements RepositorioContas {
 	private ContaAbstrata[] conta;
 	private int quantContas;
@@ -34,9 +32,9 @@ public class RepositorioContasArray implements RepositorioContas {
 
 	}
 
-	public boolean existe(String cpf) {
+	public boolean existe(long cpf) {
 		for (int aux = 0; aux < this.conta.length; aux++) {
-			if (conta[aux] != null && this.conta[aux].getCpf().equals(cpf)) {
+			if (conta[aux] != null && this.conta[aux].getCpf() == cpf) {
 				return true;
 			} else {
 				continue;
@@ -45,12 +43,12 @@ public class RepositorioContasArray implements RepositorioContas {
 		return false;
 	}
 
-	public void remover(String cpf) throws CpfNaoCadastradoException {
+	public void remover(long cpf) throws CpfNaoCadastradoException {
 		boolean resultado = this.existe(cpf);
 		if (resultado == true) {
 			boolean parou = false;
 			for (int aux = 0; aux < this.conta.length && parou == false; aux++) {
-				if (this.conta[aux].getCpf().equals(cpf)) {
+				if (this.conta[aux].getCpf() == cpf) {
 					this.conta[aux] = null;
 					for (int auxRecolocar = aux + 1; auxRecolocar < this.conta.length; auxRecolocar++) {
 						this.conta[aux] = this.conta[auxRecolocar];
@@ -69,7 +67,7 @@ public class RepositorioContasArray implements RepositorioContas {
 		if (resultado == true) {
 			boolean parou = false;
 			for (int aux = 0; aux < this.conta.length && parou == false; aux++) {
-				if (this.conta[aux].getCpf().equals(conta.getCpf())) {
+				if (this.conta[aux].getCpf() == conta.getCpf()) {
 					this.conta[aux] = conta;
 					parou = true;
 				}
@@ -77,13 +75,13 @@ public class RepositorioContasArray implements RepositorioContas {
 		}
 	}
 
-	public ContaAbstrata procurar(String cpf) throws CpfNaoCadastradoException {
+	public ContaAbstrata procurar(long cpf) throws CpfNaoCadastradoException {
 		boolean resultado = this.existe(cpf);
 		if (resultado == true) {
 			boolean parou = false;
 			ContaAbstrata procurada = null;
 			for (int aux = 0; aux < this.conta.length && parou == false; aux++) {
-				if (this.conta[aux].getCpf().equals(cpf)) {
+				if (this.conta[aux].getCpf() == cpf) {
 					procurada = conta[aux];
 					parou = true;
 				}
