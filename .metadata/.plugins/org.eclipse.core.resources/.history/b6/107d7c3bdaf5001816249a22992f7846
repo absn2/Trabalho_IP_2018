@@ -1,0 +1,51 @@
+ package cadastros;
+
+import franquias.*;
+
+public class CadastroLojas {
+	private RepositorioFranquias lojas;
+
+	public CadastroLojas(RepositorioFranquias rep) {
+		lojas = rep;
+	}
+
+	public void cadastrar(Franquia loja) ProdutoJaCadastrado {
+		if (!lojas.existe(loja.getCodigo())) {
+			lojas.inserir(loja);
+		} else {
+			throw new ProdutoJaCadastrado();
+		}
+	}
+
+	public void remover(String nomeProduto) throws ProdutoNaoCadastrado {
+		if (lojas.existe(nomeProduto)) {
+			lojas.remover(nomeProduto);
+		} else {
+			throw new ProdutoNaoCadastrado();
+		}
+	}
+
+	public boolean existe(String nomeProduto) {
+		if (lojas.existe(nomeProduto)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public ClasseProduto procurar(String nomeProduto) throws ProdutoNaoEncontrado {
+		if (lojas.existe(nomeProduto)) {
+			return lojas.procurar(nomeProduto);
+		} else {
+			throw new ProdutoNaoEncontrado();
+		}
+	}
+
+	public void atualizar(ClasseProduto ContaProduto) throws ProdutoNaoEncontrado {
+		if (lojas.existe(ContaProduto.getNome())) {
+			lojas.atualizar(ContaProduto);
+		} else {
+			throw new ProdutoNaoEncontrado();
+		}
+	}
+}

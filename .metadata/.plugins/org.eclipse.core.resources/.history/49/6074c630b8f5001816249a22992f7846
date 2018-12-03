@@ -1,0 +1,7 @@
+package franquias;
+
+public class LimiteLojasAtingidoEsception extends Exception{
+	public LimiteLojasAtingidoEsception() {
+		super ("Limite de Lojas Atingido");
+	}
+}

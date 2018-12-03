@@ -1,0 +1,9 @@
+package franquias;
+
+public interface RepositorioFranquias {
+	boolean existe (int codigo);
+	void inserir(Franquias lojas);
+	void remover (int codigo);
+	Franquias procurar(int codigo);
+	void atualizar (Franquias lojas);	
+}

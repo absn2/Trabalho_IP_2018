@@ -1,0 +1,7 @@
+package franquias;
+
+public class loj extends Exception {
+	public CodigoCadastradoException2() {
+		super ("Codigo ja utilizado");
+	}
+}
